@@ -6,7 +6,7 @@
 
 我们进行优化的目的主要有两个，一个是让代码可复用，便于维护，另一个是提升用户体验（加载方式）。
 
-![](https://raw.githubusercontent.com/beat-the-buzzer/interview/master/optimize/img/optimize01.png)
+![](./img/optimize01.png)
 
 ##### 如何复用
 
@@ -36,4 +36,4 @@
 
 ##### 优化性能指标
 
-![](https://raw.githubusercontent.com/beat-the-buzzer/interview/master/optimize/img/optimize02.png)
+![](./img/optimize02.png)
