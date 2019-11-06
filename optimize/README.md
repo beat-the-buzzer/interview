@@ -6,6 +6,8 @@
 
 我们进行优化的目的主要有两个，一个是让代码可复用，便于维护，另一个是提升用户体验（加载方式）。
 
+![](https://raw.githubusercontent.com/beat-the-buzzer/interview/master/optimize/img/optimize01.png)
+
 ##### 如何复用
 
 复用代码，有前端复用，很常见的有html复用，例如404错误页面；css复用，例如修改皮肤颜色，实际上只是修改了少量的CSS；js复用，例如一些公共的方法，tool，jQuery也算是一种复用。
@@ -31,3 +33,7 @@
 3. 按需加载
 
 按需加载，就是在加载管道有限的情况下，一些次要的，或者不在视图里的资源，可以暂缓加载。等到加载管道闲置，或者用户主动触发加载的时候，再去进行加载。
+
+##### 优化性能指标
+
+![](https://raw.githubusercontent.com/beat-the-buzzer/interview/master/optimize/img/optimize02.png)
