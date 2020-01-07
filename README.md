@@ -5,3 +5,5 @@
  1、[有哪些性能优化的方案](https://github.com/beat-the-buzzer/interview/tree/master/optimize)
 
  2、[介绍一下浏览器存储](https://github.com/beat-the-buzzer/interview/tree/master/storage)
+
+ 3、[写一个数组去重的方法](https://github.com/beat-the-buzzer/interview/tree/master/unique)
