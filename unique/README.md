@@ -50,3 +50,68 @@ console.log(unique(arr));
 #### 利用对象的key
 
 我们都知道，对象的Key是唯一的，利用这个特性我们可以有一个去重的思路。不过对象的key还有一个特点，就是key值必然是字符串。
+
+```js
+function unique(arr) {
+  var temp= [];
+  var  obj = {}; // 用于存储键值
+  for (var i = 0; i < arr.length; i++) {
+    if (!obj[arr[i]]) {
+      temp.push(arr[i]); // 不存在的key，存起来
+      obj[arr[i]] = 1;
+    } else {
+      obj[arr[i]]++; // 记录有重复的个数
+    }
+  }
+  return temp;
+}
+```
+
+不过上面这种方式有很大的局限性，字符串'1'和数字1、true和'true'也被认为是重复的。
+
+简单改进一下，加上类型判断，使用hasOwnProperty方法：
+
+```js
+function unique(arr) {
+  var obj = {};
+  return arr.filter(function(item, index) {
+    return obj.hasOwnProperty(typeof item + item) ? false : (obj[typeof item + item] = true)
+  })
+}
+function unique(arr) {
+	var obj = {};
+	return arr.filter(function(item, index) {
+		if(obj.hasOwnProperty(typeof item + item)) {
+			return false;
+		} else {
+			obj[typeof item + item] = true;
+			return true;
+		}
+  })
+}
+```
+这里把数组的值和数组的typeof值进行拼接，用计算后的值作为key，如果obj里面存了key，就return false过滤掉，没存的话，就选中了这个值，并且更新了obj对象。
+
+这种方式的缺陷在于对对象的判断，如果数组中的元素分别是{a: 1}和{b: 2}两个对象，这两个对象计算出来的key都是object[object Object]，最后会被filter过滤掉。
+
+在JavaScript中，如果非字符串类型的数据作为对象的key，这个值会被转成字符串类型。那么，有没有一个方法，把非字符串类型的数据作为key呢？
+
+ES6提供了一种新的数据结构——Map，它类似于对象，也是键值对的集合，但是“键”的范围不限于字符串，各种类型的值（包括对象）都可以当作键。
+
+```js
+function unique(arr) {
+  var map = new Map();
+  var array = new Array();  // 数组用于返回结果
+  for (var i = 0; i < arr.length; i++) {
+    if(map.has(arr[i])) {  // 如果有该key值
+      map.set(arr[i], true);  // 把arr[i]作为map的key, true作为value
+    } else { 
+      map.set(arr[i], false);   // 如果没有该key值，就把这个key放到数组中
+      array.push(arr[i]);
+    }
+  } 
+  return array ;
+}
+```
+
+用Map的方式可以解决key值去重带来的问题。
