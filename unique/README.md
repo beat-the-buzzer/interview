@@ -78,6 +78,7 @@ function unique(arr) {
     return obj.hasOwnProperty(typeof item + item) ? false : (obj[typeof item + item] = true)
   })
 }
+// 这两个函数是同样的功能，上面的写法更加简洁，下面的写法更加易懂
 function unique(arr) {
 	var obj = {};
 	return arr.filter(function(item, index) {
@@ -115,3 +116,63 @@ function unique(arr) {
 ```
 
 用Map的方式可以解决key值去重带来的问题。
+
+#### 其他方法
+
+```js
+function unique(arr) {
+  return arr.filter(function(item, index) {
+    //当前元素，在原始数组中的第一个索引==当前索引值，否则返回当前元素
+    return arr.indexOf(item, 0) === index;
+  });
+}
+```
+
+这里的局限性还是在于indexOf方法，先在MDN文档里面找到Array#indexOf的polyfill:
+
+```js
+// This version tries to optimize by only checking for "in" when looking for undefined and
+// skipping the definitely fruitless NaN search. Other parts are merely cosmetic conciseness.
+// Whether it is actually faster remains to be seen.
+if (!Array.prototype.indexOf)
+  Array.prototype.indexOf = (function(Object, max, min) {
+    "use strict"
+    return function indexOf(member, fromIndex) {
+      if (this === null || this === undefined)
+        throw TypeError("Array.prototype.indexOf called on null or undefined")
+
+      var that = Object(this), Len = that.length >>> 0, i = min(fromIndex | 0, Len)
+      if (i < 0) i = max(0, Len + i)
+      else if (i >= Len) return -1
+
+      if (member === void 0) {        // undefined
+        for (; i !== Len; ++i) if (that[i] === void 0 && i in that) return i
+      } else if (member !== member) { // NaN
+        return -1 // Since NaN !== NaN, it will never be found. Fast-path it.
+      } else                          // all else
+        for (; i !== Len; ++i) if (that[i] === member) return i 
+
+      return -1 // if the value was not found, then return -1
+    }
+  })(Object, Math.max, Math.min)
+```
+
+因为NaN和NaN本身不相等，所以数组中的NaN，用indexOf方法是找不到的。
+
+#### 小结
+
+数组去重的大致方案小结：
+
+1、双重循环，在临时数组里push新的元素；
+
+2、利用对象、Map的key的唯一性；
+
+3、ES6方法；
+
+4、寻找元素首次出现的位置是否和当前位置的元素相等；
+
+……
+
+其中解题的核心关键在于如何去判断重复的元素，indexOf、===、typeof item + item，等等方法都有各自的优势和缺陷。
+
+对于数组去重这样的经典的面试题，我们不仅仅要去解决问题，更应该去了解解决问题的思路，面试的意图更多的还是解题思路。另外，我们在探究的过程中，能把学过的知识串联起来，形成体系。
